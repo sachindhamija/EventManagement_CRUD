@@ -1,0 +1,111 @@
+﻿@model EventManagement_CRUD.Models.Event
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4>Create Event</h4>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label asp-for="StartDate" class="control-label"></label>
+                    <input asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="EndDate" class="control-label"></label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Organizer" class="control-label"></label>
+                <input asp-for="Organizer" class="form-control" />
+                <span asp-validation-for="Organizer" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="button" id="btnsave" value="Create" class="btn btn-primary" />
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+     
+        $("body").on("click", "#btnsave", function () {
+           debugger;
+           var Id = $("#Id").val();
+           var Name= $("#Name").val();
+           var Description=$("#Description").val();
+           var StartDate=$("#StartDate").val();
+           var EndDate=$("#EndDate").val();
+           var Organizer=$("#Organizer").val();
+
+
+           $.ajax({
+               type: "POST",
+               url: "/Event/Create",
+             data: {Id:Id,Name:Name,Description:Description,StartDate: StartDate,EndDate:EndDate,Organizer:Organizer},
+                 success: function (r) {
+                   alert("Save successfully..!")
+                   clear();
+               },
+               error: function (r) {
+                   alert('Failed ' + r);
+               }
+           });
+       });
+    });
+
+
+    function clear()
+    {
+           $("#Name").val('');
+           $("#Description").val('');
+           $("#StartDate").val('');
+           $("#EndDate").val('');
+           $("#Organizer").val('');
+
+
+    }
+</script>
+}
